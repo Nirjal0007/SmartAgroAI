@@ -28,25 +28,27 @@
 * **Best Validation Accuracy:** **91.17%**
 
 The trained model is stored in:
-
+```
 backend/model/best_cnn.keras
+backend/model/class_names.json
+```
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-
-* React
+* React 19
 * Vite
 * Tailwind CSS
 * React Router
 * Axios
 * Framer Motion
 * Recharts
+* React Icons
+* React Hot Toast
 
 ### Backend
-
 * FastAPI
 * TensorFlow
 * Pillow
@@ -58,6 +60,7 @@ backend/model/best_cnn.keras
 
 ## 📂 Project Structure
 
+```
 SmartAgroAI/
 ├── backend/
 │   ├── app/
@@ -67,11 +70,13 @@ SmartAgroAI/
 │   ├── disease_data.json
 │   ├── uploads/
 │   ├── history/
+│   ├── requirements.txt
 │   └── main.py
 │
 ├── frontend/
 │   ├── src/
 │   ├── public/
+│   ├── .env.example
 │   └── package.json
 │
 ├── notebooks/
@@ -82,6 +87,7 @@ SmartAgroAI/
 ├── dataset/ (ignored from Git)
 ├── .gitignore
 └── README.md
+```
 
 ---
 
@@ -90,14 +96,12 @@ SmartAgroAI/
 The project was developed in three stages:
 
 ### 1. Initial CNN
-
 * Basic convolution and pooling layers
 * Training Accuracy: ~96%
 * Validation Accuracy: ~57%
 * Problem: **Overfitting**
 
 ### 2. Improved CNN
-
 * Data Augmentation
 * Batch Normalization
 * Dropout
@@ -106,7 +110,6 @@ The project was developed in three stages:
 * Model Checkpoint
 
 ### Final Result
-
 * **Validation Accuracy:** **91.17%**
 * **Validation Loss:** **0.2690**
 
@@ -114,49 +117,74 @@ The project was developed in three stages:
 
 ## ▶️ Running the Project
 
+> **Requirements:** Python 3.9–3.12 recommended for the pinned `tensorflow==2.17.0` in `requirements.txt`. On Python 3.13+, that exact version isn't available — install `tensorflow` without a version pin instead (`pip install tensorflow` in place of the pinned line).
+
 ### Backend
 
+```bash
 cd backend
+python -m venv venv
+
+# Activate the virtual environment
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # macOS / Linux
+
 pip install -r requirements.txt
-uvicorn main:app --reload
+uvicorn main:app --reload --port 8000
+```
 
 Backend runs at:
-
+```
 http://127.0.0.1:8000
+```
 
-Swagger API:
-
+Swagger API docs:
+```
 http://127.0.0.1:8000/docs
+```
 
----
+Health check:
+```
+http://127.0.0.1:8000/health
+```
+
+⚠️ Before running, make sure `best_cnn.keras` and `class_names.json` are present in `backend/model/`. Without them, the server still starts but `/predict` returns a `503` error until the model files are added.
 
 ### Frontend
 
+```bash
 cd frontend
 npm install
+cp .env.example .env      # Windows: copy .env.example .env
 npm run dev
+```
 
 Frontend runs at:
-
+```
 http://localhost:5173
+```
+
+The frontend reads the backend's URL from `VITE_API_BASE_URL` in `.env` (defaults to `http://localhost:8000`) — make sure the backend is running before using the app.
 
 ---
 
 ## 🔄 Application Workflow
 
+```
 User uploads image
-↓
+        ↓
 React Frontend
-↓
+        ↓
 FastAPI Backend
-↓
+        ↓
 TensorFlow CNN Model
-↓
+        ↓
 Predicted Disease
-↓
-Disease Information
-↓
+        ↓
+Disease Information Lookup
+        ↓
 Result displayed with confidence
+```
 
 ---
 
@@ -167,12 +195,19 @@ Result displayed with confidence
 * **Confidence:** 91.17%
 
 Along with:
-
 * Description
 * Symptoms
 * Causes
 * Treatment
 * Prevention
+
+---
+
+## ⚠️ Known Limitations
+
+* Confidence scores reflect the model's own certainty, not ground truth — borderline or low-confidence predictions should be verified by a human before acting on them.
+* Prediction history is stored as a local JSON file (`backend/history/history.json`), not a database — suitable for local/demo use, not for concurrent multi-user deployment.
+* The model's accuracy is bounded by the PlantVillage dataset it was trained on; performance on images taken in real field conditions (varied lighting, backgrounds, multiple leaves per photo) may be lower than the reported validation accuracy.
 
 ---
 
@@ -191,9 +226,8 @@ Along with:
 ## 👨‍💻 Author
 
 **Nirjal Acharya**
-
-* GitHub: https://github.com/Nirjal0007
-* LinkedIn: https://www.linkedin.com/in/nirjal-acharya-996688383
+* GitHub: [https://github.com/Nirjal0007](https://github.com/Nirjal0007)
+* LinkedIn: [https://www.linkedin.com/in/nirjal-acharya-996688383](https://www.linkedin.com/in/nirjal-acharya-996688383)
 
 ---
 
