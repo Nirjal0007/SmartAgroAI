@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-soil font-body antialiased;
+  }
+
+  html.dark body {
+    @apply bg-canopy-900 text-cream-200;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+
+  /* Visible keyboard focus everywhere */
+  :focus-visible {
+    @apply outline-none ring-2 ring-harvest ring-offset-2 ring-offset-cream;
+  }
+
+  html.dark :focus-visible {
+    @apply ring-offset-canopy-900;
+  }
+}
+
+@layer components {
+  /* Glassmorphism card used across the app */
+  .glass {
+    @apply bg-white/60 backdrop-blur-md border border-white/40 shadow-glass;
+  }
+
+  html.dark .glass {
+    @apply bg-canopy-800/50 border-canopy-700/50;
+  }
+
+  /* Viewfinder corner-bracket frame — the app's signature motif,
+     evokes a diagnostic scanner locking onto a leaf */
+  .viewfinder {
+    position: relative;
+  }
+  .viewfinder::before,
+  .viewfinder::after,
+  .viewfinder > .vf-tl,
+  .viewfinder > .vf-br {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-color: theme('colors.harvest.DEFAULT');
+    border-style: solid;
+    border-width: 0;
+    pointer-events: none;
+  }
+  .viewfinder::before {
+    top: -1px; left: -1px;
+    border-top-width: 3px;
+    border-left-width: 3px;
+    border-top-left-radius: 6px;
+  }
+  .viewfinder::after {
+    bottom: -1px; right: -1px;
+    border-bottom-width: 3px;
+    border-right-width: 3px;
+    border-bottom-right-radius: 6px;
+  }
+
+  .scanline {
+    @apply absolute left-0 right-0 h-[2px] bg-harvest/80 shadow-[0_0_12px_2px_rgba(232,135,58,0.7)] animate-scan;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -14,9 +14,11 @@ __pycache__/
 # Environment files
 .env
 
-# Trained models
-model/*.keras
-model/*.h5
+# Node
+node_modules/
+
+# VS Code
+.vscode/
 
 # OS files
 .DS_Store
