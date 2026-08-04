@@ -19,6 +19,22 @@
 
 ---
 
+## 📸 Screenshots
+
+### Home Page
+![Home Page](./screenshots/home.png)
+
+### Disease Detection
+![Detect Disease](./screenshots/detect.png)
+
+### Prediction Result
+![Prediction Result](./screenshots/result.png)
+
+### Prediction History
+![History](./screenshots/history.png)
+
+---
+
 ## 🧠 AI Model
 
 * **Dataset:** PlantVillage
